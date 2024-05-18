@@ -7,6 +7,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class HttpResponseWrapper {
+    
     private final HttpResponse response;
 
     public HttpResponseWrapper(HttpResponse response) {
@@ -14,11 +15,13 @@ public class HttpResponseWrapper {
     }
 
     public int getStatusCode() {
-        return response.getStatusLine().getStatusCode();
+        return response.getStatusLine()
+                .getStatusCode();
     }
 
     public String getReason() {
-        return response.getStatusLine().getReasonPhrase();
+        return response.getStatusLine()
+                .getReasonPhrase();
     }
 
     public String getResponseAsString() throws IOException {

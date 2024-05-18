@@ -29,17 +29,17 @@ public class ResponseJsonToObjectsConversionTest {
     void testReadLocalDockerImageInfos(TestInfo testInfo) throws IOException {
         String sampleJsonString = Files.readString(getTestResourcePath(testInfo));
 
-        LocalDockerImageInfo[] imageInfos = jsonObjectMappingService.mapToClass(sampleJsonString, LocalDockerImageInfo[].class);
+        DockerLocalImageInfo[] imageInfos = jsonObjectMappingService.mapToClass(sampleJsonString, DockerLocalImageInfo[].class);
         assertThat(asList(imageInfos), contains(
-                        new LocalDockerImageInfo("sha256:1c1331b1fddc2625f82a4d4daa27c98e52062ade06a9e0a282703e583dafa93b",
+                        new DockerLocalImageInfo("sha256:1c1331b1fddc2625f82a4d4daa27c98e52062ade06a9e0a282703e583dafa93b",
                                 List.of("homeassistant/home-assistant:latest"),
                                 List.of("homeassistant/home-assistant@sha256:dfe252fdd57c929e678e741690e97099a38f9adff8ae87a4a7972a7b8ed61a32"),
                                 new Date(1715018122)),
-                        new LocalDockerImageInfo("sha256:7482af2336fd8e10484dd2b2385e6b9f6cc7a57ba7bbf93299ef4fd546ab06f9",
+                        new DockerLocalImageInfo("sha256:7482af2336fd8e10484dd2b2385e6b9f6cc7a57ba7bbf93299ef4fd546ab06f9",
                                 List.of("esphome/esphome:latest"),
                                 List.of("esphome/esphome@sha256:e208d1e7ca3c7e66aa1eb0b5eb3081a09f8e2b9a34704bf6c00c02c1a70e4576"),
                                 new Date(1713830022)),
-                        new LocalDockerImageInfo("sha256:051cb67876a609e838c4be62bf88348ba896b8411d17b3221743a1d31466a114",
+                        new DockerLocalImageInfo("sha256:051cb67876a609e838c4be62bf88348ba896b8411d17b3221743a1d31466a114",
                                 List.of("prom/prometheus:latest"),
                                 List.of("prom/prometheus@sha256:4f6c47e39a9064028766e8c95890ed15690c30f00c4ba14e7ce6ae1ded0295b1"),
                                 new Date(1712759409))
@@ -75,8 +75,5 @@ public class ResponseJsonToObjectsConversionTest {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper.readValue(jsonString, classOfT);
-    }
-
-    private record LocalDockerImageInfo(String Id, List<String> RepoTags, List<String> RepoDigests, Date Created) {
     }
 }

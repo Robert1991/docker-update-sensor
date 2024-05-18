@@ -26,15 +26,16 @@ public class UnixSocketConnectionFactory implements ConnectionSocketFactory {
     }
 
     @Override
-    public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host, InetSocketAddress remoteAddress, InetSocketAddress localAddress, HttpContext context)
+    public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host, InetSocketAddress remoteAddress,
+            InetSocketAddress localAddress, HttpContext context)
             throws IOException {
         if (!(sock instanceof AFUNIXSocket unixSocket)) {
             throw new IllegalArgumentException("Socket not of type AFUNIXSocket");
         }
         try {
             unixSocket.connect(AFUNIXSocketAddress.of(socketFile), connectTimeout);
-        } catch (SocketTimeoutException ste) {
-            throw new ConnectTimeoutException(ste.getMessage());
+        } catch (SocketTimeoutException e) {
+            throw new ConnectTimeoutException(e.getMessage());
         }
         return unixSocket;
     }

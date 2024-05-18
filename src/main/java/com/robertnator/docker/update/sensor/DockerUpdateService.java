@@ -1,12 +1,12 @@
 package com.robertnator.docker.update.sensor;
 
-import com.robertnator.docker.update.sensor.socket.UnixSocketDao;
+import com.robertnator.docker.update.sensor.socket.DockerSocketDao;
+import com.robertnator.docker.update.sensor.socket.UnixSocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 
 @Service
@@ -18,14 +18,17 @@ public class DockerUpdateService {
     private DockerHubDao dockerHubDao;
 
     @Autowired
-    private UnixSocketDao unixSocketClient;
+    private DockerSocketDao dockerSocketDao;
 
-    public String checkForUpdates() throws IOException {
-        //        for (var imageInfo : dockerHubDao.getLatestTags("koenkk/zigbee2mqtt", 10)) {
-        //            logger.info("Found image info {}", imageInfo);
-        //        }
+    public String checkForUpdates() throws IOException, UnixSocketException {
+        for (var imageInfo : dockerHubDao.getLatestTags("koenkk/zigbee2mqtt", 10)) {
+            logger.info("Found hub image info {}", imageInfo);
+        }
 
-        logger.info("Found images: {}", unixSocketClient.get(new File("/var/run/docker.sock"), "/images/json"));
+        for (var localImageInfo : dockerSocketDao.getImages()) {
+            logger.info("Found local image info {}", localImageInfo);
+        }
+
         return "Success!!";
     }
 }
