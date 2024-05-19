@@ -1,9 +1,9 @@
-package com.robertnator.docker.update.sensor.dockerhub;
+package com.robertnator.docker.update.sensor.dao.dockerhub;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.robertnator.docker.update.sensor.DockerUpdateService;
-import com.robertnator.docker.update.sensor.JsonObjectMappingService;
 import com.robertnator.docker.update.sensor.RestTemplateProvider;
+import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,8 @@ public class DockerHubDao {
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
-    public List<DockerHubImageInfo> getLatestTags(String imageName, int numberOfTags) throws JsonProcessingException {
+    public List<DockerHubImageInfo> getLatestTags(String imageName, int numberOfTags)
+        throws JsonObjectMappingException {
         RestTemplate restTemplate = restTemplateProvider.create();
         String response = restTemplate.getForObject(
             DOCKER_API_URL + "/" + imageName + "/tags?page_size=" + numberOfTags,

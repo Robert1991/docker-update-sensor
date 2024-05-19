@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -11,14 +11,16 @@ import java.io.File;
 
 @Component
 public class UnixSocketHttpClientFactory {
+
     public UnixSocketHttpClient createUnixSocketHttpClient(File socketFile) {
         ConnectionSocketFactory socketFactory = new UnixSocketConnectionFactory(socketFile);
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-                .register("http", socketFactory)
-                .build();
-        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            .register("http", socketFactory)
+            .build();
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(
+            socketFactoryRegistry);
         return new UnixSocketHttpClient(HttpClients.custom()
-                .setConnectionManager(connectionManager)
-                .build());
+            .setConnectionManager(connectionManager)
+            .build());
     }
 }

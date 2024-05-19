@@ -1,13 +1,16 @@
 package com.robertnator.docker.update.sensor.socket;
 
+import com.robertnator.docker.update.sensor.dao.socket.HttpResponseWrapper;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketDao;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketHttpClient;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketHttpClientFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class UnixSocketDaoTest {
 
-    @MockBean
+    @Mock
     private UnixSocketHttpClientFactory unixSocketHttpClientFactory;
 
-    @Autowired
+    @InjectMocks
     private UnixSocketDao daoUnderTest;
 
     @Mock

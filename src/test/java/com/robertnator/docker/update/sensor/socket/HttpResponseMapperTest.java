@@ -1,5 +1,6 @@
 package com.robertnator.docker.update.sensor.socket;
 
+import com.robertnator.docker.update.sensor.dao.socket.HttpResponseWrapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class HttpResponseMapperTest {
     @Test
     void testGetResponseAsString() throws IOException {
         mockedEntityUtils.when(() -> EntityUtils.toString(httpResponse.getEntity()))
-                .thenReturn("response");
+            .thenReturn("response");
 
         assertThat(objectUnderTest.getResponseAsString(), equalTo("response"));
     }

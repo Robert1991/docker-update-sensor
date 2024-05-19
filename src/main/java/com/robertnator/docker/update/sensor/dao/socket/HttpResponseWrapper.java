@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -7,7 +7,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 
 public class HttpResponseWrapper {
-    
+
     private final HttpResponse response;
 
     public HttpResponseWrapper(HttpResponse response) {
@@ -16,12 +16,12 @@ public class HttpResponseWrapper {
 
     public int getStatusCode() {
         return response.getStatusLine()
-                .getStatusCode();
+            .getStatusCode();
     }
 
     public String getReason() {
         return response.getStatusLine()
-                .getReasonPhrase();
+            .getReasonPhrase();
     }
 
     public String getResponseAsString() throws IOException {

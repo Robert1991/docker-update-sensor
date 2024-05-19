@@ -1,6 +1,8 @@
 package com.robertnator.docker.update.sensor.socket;
 
 
+import com.robertnator.docker.update.sensor.dao.socket.HttpResponseWrapper;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketHttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -36,7 +38,7 @@ public class UnixSocketHttpClientTest {
         when(httpResponse.getStatusLine().getStatusCode()).thenReturn(200);
         when(httpResponse.getStatusLine().getReasonPhrase()).thenReturn("OK");
         when(httpClient.execute(argThat(new HttpGet(new URI("test")))))
-                .thenReturn(httpResponse);
+            .thenReturn(httpResponse);
 
         HttpResponseWrapper actualHttpResponse = objectUnderTest.get(new URI("test"));
 

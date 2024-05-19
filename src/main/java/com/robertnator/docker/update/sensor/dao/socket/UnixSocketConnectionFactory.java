@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
 import org.apache.http.HttpHost;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 public class UnixSocketConnectionFactory implements ConnectionSocketFactory {
+
     private final File socketFile;
 
     public UnixSocketConnectionFactory(File socketFile) {
@@ -27,8 +28,8 @@ public class UnixSocketConnectionFactory implements ConnectionSocketFactory {
 
     @Override
     public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host, InetSocketAddress remoteAddress,
-            InetSocketAddress localAddress, HttpContext context)
-            throws IOException {
+        InetSocketAddress localAddress, HttpContext context)
+        throws IOException {
         if (!(sock instanceof AFUNIXSocket unixSocket)) {
             throw new IllegalArgumentException("Socket not of type AFUNIXSocket");
         }

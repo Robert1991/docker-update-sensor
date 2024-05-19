@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.dockerhub;
+package com.robertnator.docker.update.sensor.dao.dockerhub;
 
 import java.util.Date;
 

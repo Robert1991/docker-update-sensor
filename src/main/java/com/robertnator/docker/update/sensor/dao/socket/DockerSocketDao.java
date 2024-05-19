@@ -1,7 +1,7 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.robertnator.docker.update.sensor.JsonObjectMappingService;
+import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

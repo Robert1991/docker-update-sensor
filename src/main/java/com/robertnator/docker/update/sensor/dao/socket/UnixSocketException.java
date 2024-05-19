@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
 public class UnixSocketException extends Exception {
 

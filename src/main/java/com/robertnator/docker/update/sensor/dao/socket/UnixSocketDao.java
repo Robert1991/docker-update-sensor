@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
 import com.robertnator.docker.update.sensor.DockerUpdateService;
 import org.slf4j.Logger;
