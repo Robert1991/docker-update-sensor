@@ -1,15 +1,11 @@
 package com.robertnator.docker.update.sensor.socket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.robertnator.docker.update.sensor.DockerLocalImageInfo;
 import com.robertnator.docker.update.sensor.JsonObjectMappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @Component
 public class DockerSocketDao {
@@ -22,8 +18,9 @@ public class DockerSocketDao {
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
-    public List<DockerLocalImageInfo> getImages() throws UnixSocketException, JsonProcessingException {
-        String imagesInfo = unixSocketDao.get(new File("/var/run/docker.sock"), "/images/json");
-        return asList(jsonObjectMappingService.mapToClass(imagesInfo, DockerLocalImageInfo[].class));
+    public DockerLocalImageInfo getImageInfo(String imageName) throws UnixSocketException, JsonProcessingException {
+        String imagesInfo = unixSocketDao.get(new File(DOCKER_UNIX_SOCKET),
+            String.format("/images/%s/json", imageName));
+        return jsonObjectMappingService.mapToClass(imagesInfo, DockerLocalImageInfo.class);
     }
 }

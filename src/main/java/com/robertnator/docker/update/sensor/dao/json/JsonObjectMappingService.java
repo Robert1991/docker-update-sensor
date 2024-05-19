@@ -1,6 +1,7 @@
 package com.robertnator.docker.update.sensor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class JsonObjectMappingService {
     private ObjectMapper mapper;
 
     public <T> T mapToClass(String jsonString, Class<T> classOfT) throws JsonProcessingException {
+        mapper.configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, true);
         mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
         return mapper.readValue(jsonString, classOfT);
     }
