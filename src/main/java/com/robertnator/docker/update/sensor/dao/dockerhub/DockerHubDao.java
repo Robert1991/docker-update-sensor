@@ -1,7 +1,6 @@
 package com.robertnator.docker.update.sensor.dao.dockerhub;
 
 import com.robertnator.docker.update.sensor.DockerUpdateService;
-import com.robertnator.docker.update.sensor.RestTemplateProvider;
 import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
@@ -24,17 +23,15 @@ public class DockerHubDao {
     public static String DOCKER_API_URL = "https://hub.docker.com/v2/repositories";
 
     @Autowired
-    private RestTemplateProvider restTemplateProvider;
+    private RestTemplate restTemplate;
 
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
     public List<DockerHubImageInfo> getLatestTags(String imageName, int numberOfTags)
         throws JsonObjectMappingException {
-        RestTemplate restTemplate = restTemplateProvider.create();
         String response = restTemplate.getForObject(
-            DOCKER_API_URL + "/" + imageName + "/tags?page_size=" + numberOfTags,
-            String.class);
+            DOCKER_API_URL + "/" + imageName + "/tags?page_size=" + numberOfTags, String.class);
         logger.info("received from docker hub: {}", response);
         JSONObject jsonResponse = new JSONObject(response);
         return asList(jsonObjectMappingService.mapToClass(jsonResponse.getJSONArray("results").toString(),

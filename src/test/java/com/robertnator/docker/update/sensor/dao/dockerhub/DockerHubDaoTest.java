@@ -1,7 +1,6 @@
-package com.robertnator.docker.update.sensor;
+package com.robertnator.docker.update.sensor.dao.dockerhub;
 
 
-import com.robertnator.docker.update.sensor.dao.dockerhub.DockerHubDao;
 import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
@@ -27,15 +26,13 @@ public class DockerHubDaoTest {
     private JsonObjectMappingService jsonObjectMappingService;
 
     @Mock
-    private RestTemplateProvider restTemplateProvider;
+    private RestTemplate restTemplate;
 
     @InjectMocks
     private DockerHubDao daoUnderTest;
 
     @Test
-    void testGetLatestTags(@Mock RestTemplate restTemplate) throws JsonObjectMappingException {
-        when(restTemplateProvider.create()).thenReturn(restTemplate);
-
+    void testGetLatestTags() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class)).thenReturn(
             "{ \"results\": [\"response from docker hub\"] }");
