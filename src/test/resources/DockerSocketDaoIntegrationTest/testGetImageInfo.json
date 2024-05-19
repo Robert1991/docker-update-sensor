@@ -1,6 +1,6 @@
 {
   "Id": "sha256:b23433ac1b2accddcf0e5089b1b7cd4a1e5bb8d2d1ce3c9f6ecfcd15b9fd99d2",
-  "RepoTagsWithUnexpectedAppendix": [
+  "RepoTags": [
     "koenkk/zigbee2mqtt:latest"
   ],
   "RepoDigests": [
