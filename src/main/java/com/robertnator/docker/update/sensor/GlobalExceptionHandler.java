@@ -1,6 +1,7 @@
 package com.robertnator.docker.update.sensor;
 
-import com.robertnator.docker.update.sensor.socket.UnixSocketException;
+import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnixSocketException.class)
     public ResponseEntity<String> handleUnixSocketException(UnixSocketException e) {
         LOG.error("Received error on unix socket communication:", e);
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+            .body(e.getMessage());
+    }
+
+    @ExceptionHandler(JsonObjectMappingException.class)
+    public ResponseEntity<String> handleJsonObjectMappingException(JsonObjectMappingException e) {
+        LOG.error("Received error when trying to map json response to class: ", e);
         return ResponseEntity.status(INTERNAL_SERVER_ERROR)
             .body(e.getMessage());
     }

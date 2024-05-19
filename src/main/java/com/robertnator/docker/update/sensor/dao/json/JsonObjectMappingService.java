@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor;
+package com.robertnator.docker.update.sensor.dao.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -14,9 +14,13 @@ public class JsonObjectMappingService {
     @Autowired
     private ObjectMapper mapper;
 
-    public <T> T mapToClass(String jsonString, Class<T> classOfT) throws JsonProcessingException {
-        mapper.configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, true);
-        mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return mapper.readValue(jsonString, classOfT);
+    public <T> T mapToClass(String jsonString, Class<T> classOfT) throws JsonObjectMappingException {
+        try {
+            mapper.configure(DeserializationFeature.FAIL_ON_NULL_CREATOR_PROPERTIES, true);
+            mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+            return mapper.readValue(jsonString, classOfT);
+        } catch (JsonProcessingException e) {
+            throw new JsonObjectMappingException(jsonString, classOfT, e);
+        }
     }
 }

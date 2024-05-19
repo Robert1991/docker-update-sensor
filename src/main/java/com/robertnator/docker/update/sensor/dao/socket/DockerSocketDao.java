@@ -18,7 +18,7 @@ public class DockerSocketDao {
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
-    public DockerLocalImageInfo getImageInfo(String imageName) throws UnixSocketException, JsonProcessingException {
+    public DockerLocalImageInfo getImageInfo(String imageName) throws UnixSocketException, JsonObjectMappingException {
         String imagesInfo = unixSocketDao.get(new File(DOCKER_UNIX_SOCKET),
             String.format("/images/%s/json", imageName));
         return jsonObjectMappingService.mapToClass(imagesInfo, DockerLocalImageInfo.class);
