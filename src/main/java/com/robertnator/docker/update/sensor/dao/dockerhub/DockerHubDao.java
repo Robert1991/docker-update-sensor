@@ -2,8 +2,9 @@ package com.robertnator.docker.update.sensor.dao.dockerhub;
 
 import com.robertnator.docker.update.sensor.DockerUpdateService;
 import com.robertnator.docker.update.sensor.RestTemplateProvider;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingService;
+import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

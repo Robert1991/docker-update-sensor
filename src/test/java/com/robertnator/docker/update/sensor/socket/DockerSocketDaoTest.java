@@ -1,11 +1,11 @@
 package com.robertnator.docker.update.sensor.socket;
 
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingService;
-import com.robertnator.docker.update.sensor.dao.socket.DockerLocalImageInfo;
 import com.robertnator.docker.update.sensor.dao.socket.DockerSocketDao;
 import com.robertnator.docker.update.sensor.dao.socket.UnixSocketDao;
 import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
+import com.robertnator.docker.update.sensor.model.socket.DockerLocalImageInfo;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

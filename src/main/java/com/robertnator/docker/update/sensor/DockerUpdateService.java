@@ -1,9 +1,9 @@
 package com.robertnator.docker.update.sensor;
 
 import com.robertnator.docker.update.sensor.dao.dockerhub.DockerHubDao;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
 import com.robertnator.docker.update.sensor.dao.socket.DockerSocketDao;
 import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

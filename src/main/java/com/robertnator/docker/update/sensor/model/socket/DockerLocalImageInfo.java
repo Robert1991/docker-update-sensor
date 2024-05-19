@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.dao.socket;
+package com.robertnator.docker.update.sensor.model.socket;
 
 import java.util.Date;
 import java.util.List;

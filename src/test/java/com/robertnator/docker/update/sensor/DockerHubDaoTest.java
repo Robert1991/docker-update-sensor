@@ -2,9 +2,9 @@ package com.robertnator.docker.update.sensor;
 
 
 import com.robertnator.docker.update.sensor.dao.dockerhub.DockerHubDao;
-import com.robertnator.docker.update.sensor.dao.dockerhub.DockerHubImageInfo;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingException;
-import com.robertnator.docker.update.sensor.dao.json.JsonObjectMappingService;
+import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
+import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

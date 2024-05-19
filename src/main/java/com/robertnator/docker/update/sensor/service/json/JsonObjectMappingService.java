@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.dao.json;
+package com.robertnator.docker.update.sensor.service.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
