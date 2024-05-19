@@ -1,6 +1,5 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.robertnator.docker.update.sensor.dao.socket.HttpResponseWrapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;

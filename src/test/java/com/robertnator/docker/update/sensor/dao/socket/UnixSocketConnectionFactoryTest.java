@@ -1,6 +1,5 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketConnectionFactory;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.protocol.HttpContext;

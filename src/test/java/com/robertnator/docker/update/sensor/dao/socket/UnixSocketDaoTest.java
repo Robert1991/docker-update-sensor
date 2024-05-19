@@ -1,10 +1,5 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.robertnator.docker.update.sensor.dao.socket.HttpResponseWrapper;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketDao;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketHttpClient;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketHttpClientFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

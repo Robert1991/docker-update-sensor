@@ -1,8 +1,5 @@
-package com.robertnator.docker.update.sensor.socket;
+package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.robertnator.docker.update.sensor.dao.socket.DockerSocketDao;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketDao;
-import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
 import com.robertnator.docker.update.sensor.model.socket.DockerLocalImageInfo;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
