@@ -22,8 +22,9 @@ public class UnixSocketDao {
             URI uri = URI.create("http://localhost").resolve(query);
             HttpResponseWrapper response = executeGet(httpClient, socketFile, uri);
             if (response.getStatusCode() == 200) {
+                LOG.info("GET query returned successful status code. Unpacking response...");
                 String result = getResponseString(response);
-                LOG.info("Finished reading response from socket: {}", result);
+                LOG.debug("Finished reading response from socket: {}", result);
                 return result;
             }
             throw new UnixSocketException(String.format("Unexpected status code '%s' on query '%s' to socket: " +

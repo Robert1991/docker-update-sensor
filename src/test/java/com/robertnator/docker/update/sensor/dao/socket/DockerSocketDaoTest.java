@@ -36,7 +36,7 @@ public class DockerSocketDaoTest {
             .thenReturn("{ jsonResponse }");
         DockerLocalImageInfo expectedImageInfo = new DockerLocalImageInfo("id", singletonList("RepoTag"),
             singletonList("RepoDigest"), new Date());
-        when(jsonObjectMappingService.mapToClass("{ jsonResponse }", DockerLocalImageInfo.class))
+        when(jsonObjectMappingService.mapToClass("{ jsonResponse }", DockerLocalImageInfo.class, true))
             .thenReturn(expectedImageInfo);
 
         DockerLocalImageInfo actualImageInfo = daoUnderTest.getImageInfo("docker/image/name");

@@ -27,7 +27,7 @@ public class ResponseJsonToObjectsConversionTest {
         String sampleJsonString = Files.readString(getTestResourcePath(testInfo));
 
         DockerHubImageInfo[] imageInfos = jsonObjectMappingService.mapToClass(sampleJsonString,
-            DockerHubImageInfo[].class);
+            DockerHubImageInfo[].class, false);
         assertThat(asList(imageInfos), contains(
             new DockerHubImageInfo("504323559", toDate("2024-05-09T20:33:26.875021Z"), "latest",
                 "sha256:d37f2f8227d9c2763ddbe06e48328f9ec3a9b8cf081dfcbda44c9b0af4c0c634"),

@@ -30,7 +30,7 @@ public class DockerImageUpdateCheckService {
     public DockerUpdateInfo checkForUpdate(String imageName, String dockerHubNameSpace)
         throws UnixSocketException, JsonObjectMappingException, DockerImageUpdateCheckException {
         DockerHubImageInfo latestVersionInfo = getLatestVersionInfo(imageName,
-            dockerHubDao.getLatestTags(imageName, dockerHubNameSpace, 20));
+            dockerHubDao.getLatestTags(imageName, dockerHubNameSpace, 50));
         DockerLocalImageInfo localImageInfo = dockerSocketDao.getImageInfo(imageName);
 
         String latestVersionDigest = latestVersionInfo.digest();
@@ -57,7 +57,7 @@ public class DockerImageUpdateCheckService {
         List<DockerHubImageInfo> imageInfosFromDockerHubCopy = new ArrayList<>(imageInfosFromDockerHub);
         imageInfosFromDockerHubCopy.remove(latestImageInfo);
         return imageInfosFromDockerHubCopy.stream()
-            .filter(imageInfo -> imageInfo.digest().equals(latestImageInfo.digest()))
+            .filter(imageInfo -> imageInfo.digest() != null && imageInfo.digest().equals(latestImageInfo.digest()))
             .findFirst()
             .orElse(latestImageInfo);
     }

@@ -18,9 +18,10 @@ public class JsonObjectMappingService {
         this.mapper = mapper;
     }
 
-    public <T> T mapToClass(String jsonString, Class<T> classOfT) throws JsonObjectMappingException {
+    public <T> T mapToClass(String jsonString, Class<T> classOfT, boolean failOnNullProperties)
+        throws JsonObjectMappingException {
         try {
-            mapper.configure(FAIL_ON_NULL_CREATOR_PROPERTIES, true);
+            mapper.configure(FAIL_ON_NULL_CREATOR_PROPERTIES, failOnNullProperties);
             mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(jsonString, classOfT);
         } catch (JsonProcessingException e) {

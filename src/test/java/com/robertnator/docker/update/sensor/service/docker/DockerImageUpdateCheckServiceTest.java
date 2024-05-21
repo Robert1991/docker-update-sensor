@@ -42,11 +42,12 @@ public class DockerImageUpdateCheckServiceTest {
 
         @BeforeEach
         void setUp() throws JsonObjectMappingException {
-            when(dockerHubDao.getLatestTags("image", "namespace", 20))
+            when(dockerHubDao.getLatestTags("image", "namespace", 50))
                 .thenReturn(asList(
                     new DockerHubImageInfo("1", new Date(1), "latest", "latestDigest"),
                     new DockerHubImageInfo("2", new Date(2), "1.1", "latestDigest"),
-                    new DockerHubImageInfo("3", new Date(3), "1.0", "versionDigest")));
+                    new DockerHubImageInfo("3", new Date(3), "1.0", "versionDigest"),
+                    new DockerHubImageInfo("4", new Date(4), "0.9", null)));
         }
 
         @Test
@@ -54,7 +55,7 @@ public class DockerImageUpdateCheckServiceTest {
             when(dockerSocketDao.getImageInfo("image"))
                 .thenReturn(
                     new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("image@versionDigest"),
-                        new Date(4)));
+                        new Date(5)));
 
             assertThat(serviceUnderTest.checkForUpdate("image", "namespace"), equalTo(
                 new DockerUpdateInfo(true, "image", "1.1", "latestDigest",
@@ -86,7 +87,7 @@ public class DockerImageUpdateCheckServiceTest {
     @Test
     void testCheckForUpdateWhenThereIsNoTagForLatestVersion()
         throws JsonObjectMappingException, DockerImageUpdateCheckException, UnixSocketException {
-        when(dockerHubDao.getLatestTags("image", "namespace", 20))
+        when(dockerHubDao.getLatestTags("image", "namespace", 50))
             .thenReturn(asList(
                 new DockerHubImageInfo("1", new Date(1), "latest", "latestDigest"),
                 new DockerHubImageInfo("3", new Date(3), "1.0", "versionDigest")));

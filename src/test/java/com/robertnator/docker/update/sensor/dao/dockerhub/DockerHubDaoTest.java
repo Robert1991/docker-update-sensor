@@ -34,15 +34,15 @@ public class DockerHubDaoTest {
 
     @BeforeEach
     void setUp() throws JsonObjectMappingException {
-        when(jsonObjectMappingService.mapToClass("[\"response from docker hub\"]", DockerHubImageInfo[].class))
+        when(jsonObjectMappingService.mapToClass("[\"response from docker hub\"]", DockerHubImageInfo[].class, false))
             .thenReturn(new DockerHubImageInfo[]{new DockerHubImageInfo("id", new Date(123), "latest", "digest")});
     }
 
     @Test
     void testGetLatestTags() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
-        when(restTemplate.getForObject(expectedApiQuery, String.class)).thenReturn(
-            "{ \"results\": [\"response from docker hub\"] }");
+        when(restTemplate.getForObject(expectedApiQuery, String.class))
+            .thenReturn("{ \"results\": [\"response from docker hub\"] }");
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("repository/name", "", 10);
 
@@ -59,5 +59,28 @@ public class DockerHubDaoTest {
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
     }
+
+    @Test
+    void testGetLatestTagsWithMultiplePages() throws JsonObjectMappingException {
+        String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
+        when(restTemplate.getForObject(expectedApiQuery, String.class))
+            .thenReturn("{ \"next\": \"http://next.url.to.fetch.from/\", \"results\": [\"response from docker hub\"]}");
+        when(restTemplate.getForObject("http://next.url.to.fetch.from/", String.class))
+            .thenReturn("{ \"next\": null, \"results\": [\"second response from docker hub\"]}");
+
+        when(jsonObjectMappingService.mapToClass("[\"response from docker hub\"]", DockerHubImageInfo[].class, false))
+            .thenReturn(new DockerHubImageInfo[]{new DockerHubImageInfo("id", new Date(123), "latest", "digest")});
+        when(jsonObjectMappingService.mapToClass("[\"second response from docker hub\"]", DockerHubImageInfo[].class,
+            false))
+            .thenReturn(new DockerHubImageInfo[]{new DockerHubImageInfo("id2", new Date(345), "oldVersion",
+                "otherDigest")});
+
+
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("repository/name", "", 10);
+
+        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"),
+            new DockerHubImageInfo("id2", new Date(345), "oldVersion", "otherDigest")));
+    }
+
 
 }
