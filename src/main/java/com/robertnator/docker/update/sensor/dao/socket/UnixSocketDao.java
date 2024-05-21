@@ -1,6 +1,5 @@
 package com.robertnator.docker.update.sensor.dao.socket;
 
-import com.robertnator.docker.update.sensor.DockerUpdateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import java.net.URI;
 @Component
 public class UnixSocketDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DockerUpdateService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UnixSocketDao.class);
 
     @Autowired
     private UnixSocketHttpClientFactory unixSocketHttpClientFactory;

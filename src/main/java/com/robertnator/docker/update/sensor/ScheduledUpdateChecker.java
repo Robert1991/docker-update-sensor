@@ -1,15 +1,16 @@
 package com.robertnator.docker.update.sensor;
 
 
+import com.robertnator.docker.update.sensor.service.docker.DockerImageUpdateCheckService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduledUpdateChecker {
 
-    private final DockerUpdateService dockerUpdateService;
+    private final DockerImageUpdateCheckService dockerUpdateService;
 
-    public ScheduledUpdateChecker(DockerUpdateService dockerUpdateService) {
+    public ScheduledUpdateChecker(DockerImageUpdateCheckService dockerUpdateService) {
         this.dockerUpdateService = dockerUpdateService;
     }
 

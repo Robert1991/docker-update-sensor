@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 @Component
 public class DockerHubDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(DockerUpdateService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DockerHubDao.class);
 
     public static String DOCKER_API_URL = "https://hub.docker.com/v2/repositories";
 

@@ -1,13 +1,11 @@
 package com.robertnator.docker.update.sensor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,11 +17,10 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
-@ExtendWith(MockitoExtension.class)
 public class ResponseJsonToObjectsConversionTest {
 
-    @InjectMocks
-    private JsonObjectMappingService jsonObjectMappingService;
+    private final JsonObjectMappingService jsonObjectMappingService =
+        new JsonObjectMappingService(new ObjectMapper());
 
     @Test
     void testReadDockerHubImageInfo(TestInfo testInfo) throws IOException, JsonObjectMappingException {

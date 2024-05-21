@@ -49,17 +49,26 @@ public class DockerSocketDaoIntegrationTest {
     }
 
     @Test
-    void testGetImageInfoWithMissingTag(TestInfo testInfo) throws IOException, UnixSocketException {
-        String sampleImageInfoJsonString = Files.readString(getTestResourcePath(testInfo));
-
-        when(unixSocketDao.get(new File(DOCKER_UNIX_SOCKET), "/images/imageName/json"))
-            .thenReturn(sampleImageInfoJsonString);
-
-        assertThrows(JsonObjectMappingException.class, () -> daoUnderTest.getImageInfo("imageName"));
+    void testGetImageInfoWithMissingTag(TestInfo testInfo) throws Exception {
+        doTestGetImageInfoErrorCase(testInfo);
     }
 
     @Test
-    void testGetImageInfoWithUnknownTag(TestInfo testInfo) throws IOException, UnixSocketException {
+    void testGetImageInfoWithUnknownTag(TestInfo testInfo) throws Exception {
+        doTestGetImageInfoErrorCase(testInfo);
+    }
+
+    @Test
+    void testGetImageInfoWithEmptyRequiredTag(TestInfo testInfo) throws Exception {
+        doTestGetImageInfoErrorCase(testInfo);
+    }
+
+    @Test
+    void testGetImageInfoWhenRequiredTagHasMoreThanOneElement(TestInfo testInfo) throws Exception {
+        doTestGetImageInfoErrorCase(testInfo);
+    }
+
+    private void doTestGetImageInfoErrorCase(TestInfo testInfo) throws Exception {
         String sampleImageInfoJsonString = Files.readString(getTestResourcePath(testInfo));
 
         when(unixSocketDao.get(new File(DOCKER_UNIX_SOCKET), "/images/imageName/json"))

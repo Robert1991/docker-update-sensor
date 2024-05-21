@@ -1,0 +1,93 @@
+{
+  "Id": "sha256:b23433ac1b2accddcf0e5089b1b7cd4a1e5bb8d2d1ce3c9f6ecfcd15b9fd99d2",
+  "RepoTags": [],
+  "RepoDigests": [
+    "koenkk/zigbee2mqtt@sha256:32901c8b100ee4d04123eb714523a023ca4aba7946e504209c7d773d07f697b5"
+  ],
+  "Parent": "",
+  "Comment": "buildkit.dockerfile.v0",
+  "Created": "2024-04-01T18:02:30.665927498Z",
+  "Container": "",
+  "ContainerConfig": {
+    "Hostname": "",
+    "Domainname": "",
+    "User": "",
+    "AttachStdin": false,
+    "AttachStdout": false,
+    "AttachStderr": false,
+    "Tty": false,
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Env": null,
+    "Cmd": null,
+    "Image": "",
+    "Volumes": null,
+    "WorkingDir": "",
+    "Entrypoint": null,
+    "OnBuild": null,
+    "Labels": null
+  },
+  "DockerVersion": "",
+  "Author": "",
+  "Config": {
+    "Hostname": "",
+    "Domainname": "",
+    "User": "",
+    "AttachStdin": false,
+    "AttachStdout": false,
+    "AttachStderr": false,
+    "Tty": false,
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Env": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "NODE_ENV=production"
+    ],
+    "Cmd": [
+      "/sbin/tini",
+      "--",
+      "node",
+      "index.js"
+    ],
+    "ArgsEscaped": true,
+    "Image": "",
+    "Volumes": null,
+    "WorkingDir": "/app",
+    "Entrypoint": [
+      "docker-entrypoint.sh"
+    ],
+    "OnBuild": null,
+    "Labels": null
+  },
+  "Architecture": "amd64",
+  "Os": "linux",
+  "Size": 115253890,
+  "VirtualSize": 115253890,
+  "GraphDriver": {
+    "Data": {
+      "LowerDir": "/var/snap/docker/common/var-lib-docker/overlay2/4d7cad62c4b42d904aa7d1381fed9ec4df54ac4f890be5aeeaadb95a66a85fbd/diff:/var/snap/docker/common/var-lib-docker/overlay2/d576b09651ec249c6caa23c3091d0880bf22414108af62d954f09e5cc84bc2c2/diff:/var/snap/docker/common/var-lib-docker/overlay2/337dac5e451dbe23b768e3ef74ca63f94226d52384e8185f9f69e90e29ad410c/diff:/var/snap/docker/common/var-lib-docker/overlay2/366a3118ae8b8950afee1afdbf53c09e6d8b722b754f60b0734c99366cacdf39/diff:/var/snap/docker/common/var-lib-docker/overlay2/8c715761d5658cc83cb083317416634e5cd4b2895ae29fd7bc7c71b3a64a5f25/diff:/var/snap/docker/common/var-lib-docker/overlay2/68f29153fb9f50d0b034bd1828d08a3e8aacff7a3709be6a9ac32ec9daa710f4/diff:/var/snap/docker/common/var-lib-docker/overlay2/8dae3d66dce6203ce02f2c356d93c266887167fce4fea375fa60cc40731785f7/diff:/var/snap/docker/common/var-lib-docker/overlay2/6d20736b75d6adf53b4f7e6153d0f3936da47e13c40df08d726e68c86d687452/diff:/var/snap/docker/common/var-lib-docker/overlay2/8d219e9a19f8617a75853fb5ce7768d2ef1d299f8b045f5f79f20bb169155e2c/diff",
+      "MergedDir": "/var/snap/docker/common/var-lib-docker/overlay2/c7e1543ecefe7d2ecf120d17a45736a45e81dc3d6d2d26cbb422199abb9e1bca/merged",
+      "UpperDir": "/var/snap/docker/common/var-lib-docker/overlay2/c7e1543ecefe7d2ecf120d17a45736a45e81dc3d6d2d26cbb422199abb9e1bca/diff",
+      "WorkDir": "/var/snap/docker/common/var-lib-docker/overlay2/c7e1543ecefe7d2ecf120d17a45736a45e81dc3d6d2d26cbb422199abb9e1bca/work"
+    },
+    "Name": "overlay2"
+  },
+  "RootFS": {
+    "Type": "layers",
+    "Layers": [
+      "sha256:cc2447e1835a40530975ab80bb1f872fbab0f2a0faecf2ab16fbbb89b3589438",
+      "sha256:c986769e60bea5ab77f50b7f85b2f8d934b555079948c18b06893079e58e8134",
+      "sha256:137c90e10eec45c11a06a087116feab656a3ab30dcc62f9ca178833e9d8d4ce5",
+      "sha256:d9ca9c359e6907dff5bd62eb25e654d4584f998b2bea38bcf6b031d351768a8e",
+      "sha256:953e085bff50d824325bebd38c5231ab391ac9aa53c315d267b41a0482e11a64",
+      "sha256:892231c3d8c8ee41251d594806e2816d537063969ed5d02695f985fc5ef4098b",
+      "sha256:6acd9fbe131611fcd1deeeab31a7b78435df551ea0f2ac78ef54b8ca6fe85d80",
+      "sha256:228c2067f9e012583b777b30de97555fef9b79a2d0c82338d7968978fcfd499f",
+      "sha256:501ea855fd2bef63189feb2ebe4b38bf416b13937596a7b7b21625f7ed4cb6c6",
+      "sha256:d85f245aad3a034c38f07000efde41d4f979548456c25fdc6f46c3f5df7c13a5"
+    ]
+  },
+  "Metadata": {
+    "LastTagTime": "0001-01-01T00:00:00Z"
+  }
+}
