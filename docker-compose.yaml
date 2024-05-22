@@ -1,0 +1,9 @@
+services:
+  docker-update-sensor:
+    container_name: docker-update-sensor
+    image: robert1991/docker-update-sensor
+    ports:
+      - "8080:8080" 
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: always
