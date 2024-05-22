@@ -27,10 +27,10 @@ public class DockerImageUpdateCheckService {
     @Autowired
     private DockerSocketDao dockerSocketDao;
 
-    public DockerUpdateInfo checkForUpdate(String imageName, String dockerHubNameSpace)
+    public DockerUpdateInfo checkForUpdate(String imageName)
         throws UnixSocketException, JsonObjectMappingException, DockerImageUpdateCheckException {
         DockerHubImageInfo latestVersionInfo = getLatestVersionInfo(imageName,
-            dockerHubDao.getLatestTags(imageName, dockerHubNameSpace, 50));
+            dockerHubDao.getLatestTags(imageName, 50));
         DockerLocalImageInfo localImageInfo = dockerSocketDao.getImageInfo(imageName);
 
         String latestVersionDigest = latestVersionInfo.digest();

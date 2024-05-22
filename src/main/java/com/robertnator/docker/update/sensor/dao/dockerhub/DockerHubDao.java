@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Component
 public class DockerHubDao {
 
     private static final Logger logger = LoggerFactory.getLogger(DockerHubDao.class);
 
+    public static final String DOCKER_DEFAULT_NAMESPACE = "library";
     public static String DOCKER_API_URL = "https://hub.docker.com/v2/repositories";
 
     @Autowired
@@ -29,10 +29,10 @@ public class DockerHubDao {
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
-    public List<DockerHubImageInfo> getLatestTags(String imageName, String dockerHubNamespace, int numberOfTags)
+    public List<DockerHubImageInfo> getLatestTags(String imageName, int numberOfTags)
         throws JsonObjectMappingException {
         List<DockerHubImageInfo> queryResults = new ArrayList<>();
-        String queryURL = createTagQueryURL(imageName, dockerHubNamespace, numberOfTags);
+        String queryURL = createTagQueryURL(imageName, numberOfTags);
         while (true) {
             JSONObject jsonResponse = executeGetQuery(queryURL);
             queryResults.addAll(asList(
@@ -48,10 +48,10 @@ public class DockerHubDao {
         return queryResults;
     }
 
-    private static String createTagQueryURL(String imageName, String dockerHubNamespace, int numberOfTags) {
+    private static String createTagQueryURL(String imageName, int numberOfTags) {
         String dockerHubRepository = imageName;
-        if (isNotEmpty(dockerHubNamespace)) {
-            dockerHubRepository = dockerHubNamespace + "/" + imageName;
+        if (!imageName.contains("/")) {
+            dockerHubRepository = DOCKER_DEFAULT_NAMESPACE + "/" + imageName;
         }
         return DOCKER_API_URL + "/" + dockerHubRepository + "/tags?page_size=" + numberOfTags;
     }

@@ -25,9 +25,8 @@ public class DockerUpdateController {
     public DockerUpdateInfo checkForUpdates(
         @RequestParam(name = "image")
         @NotBlank(message = "image name cannot be empty")
-        String image,
-        String namespace) throws UnixSocketException, JsonObjectMappingException,
+        String image) throws UnixSocketException, JsonObjectMappingException,
         DockerImageUpdateCheckException {
-        return dockerImageUpdateCheckService.checkForUpdate(image, namespace);
+        return dockerImageUpdateCheckService.checkForUpdate(image);
     }
 }
