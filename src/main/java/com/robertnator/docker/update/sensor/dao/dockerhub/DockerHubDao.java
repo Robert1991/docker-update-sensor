@@ -49,11 +49,20 @@ public class DockerHubDao {
     }
 
     private static String createTagQueryURL(String imageName, int numberOfTags) {
-        String dockerHubRepository = imageName;
-        if (!imageName.contains("/")) {
-            dockerHubRepository = DOCKER_DEFAULT_NAMESPACE + "/" + imageName;
-        }
+        String dockerHubRepository = getDockerHubRepository(imageName);
         return DOCKER_API_URL + "/" + dockerHubRepository + "/tags?page_size=" + numberOfTags;
+    }
+
+    private static String getDockerHubRepository(String imageName) {
+        String dockerHubRepository = imageName;
+        int versionPartBeginIndex = dockerHubRepository.lastIndexOf(":");
+        if (versionPartBeginIndex != -1) {
+            dockerHubRepository = dockerHubRepository.substring(0, versionPartBeginIndex);
+        }
+        if (!dockerHubRepository.contains("/")) {
+            return DOCKER_DEFAULT_NAMESPACE + "/" + dockerHubRepository;
+        }
+        return dockerHubRepository;
     }
 
     private JSONObject executeGetQuery(String queryURL) {

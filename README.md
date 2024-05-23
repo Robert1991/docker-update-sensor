@@ -22,8 +22,8 @@ Or see the docker compose file within this repository on how to run the service.
 
 ## Usage
 
-The web service only offers one endpoint you can communicate with using HTTP GET. It will tell you if there is a new latest image for your running docker container. If your
-image name is e.g. "home-assistant/homeassistant" and the docker update sensor is running on a server "home-server" with exposed port 8080, request and response 
+The web service only offers one endpoint you can communicate with using HTTP GET. It will tell you if there is a new latest image for the docker container image you previously pulled
+from docker hub. If your image name is e.g. "home-assistant/homeassistant" and the docker update sensor is running on a server "home-server" with exposed port 8080, request and response 
 would look like this:
 
 ```bash
@@ -41,3 +41,12 @@ Response:
   "updated" : "2024-05-17T13:31:44.530+00:00"
 }
 ```
+
+This only works if you pulled the image from docker hub with the `latest` tag. If you pulled a docker image with a specific version tag, you'll have to use it in the query:
+
+```bash
+curl http://home-server:8080//api/check/update?image=mariadb:11
+```
+
+This will compare the digest of your local mariadb image with the latest found on docker hub. This allows you to compare multiple docker images if you have more than 
+one image of the same docker container running e.g. mariadb:latest and mariadb:11.
