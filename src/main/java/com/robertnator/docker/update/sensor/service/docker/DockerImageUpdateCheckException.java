@@ -1,4 +1,4 @@
-package com.robertnator.docker.update.sensor.service;
+package com.robertnator.docker.update.sensor.service.docker;
 
 public class DockerImageUpdateCheckException extends Exception {
 

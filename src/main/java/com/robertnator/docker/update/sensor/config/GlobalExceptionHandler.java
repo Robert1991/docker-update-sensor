@@ -1,7 +1,7 @@
 package com.robertnator.docker.update.sensor.config;
 
 import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
-import com.robertnator.docker.update.sensor.service.DockerImageUpdateCheckException;
+import com.robertnator.docker.update.sensor.service.docker.DockerImageUpdateCheckException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;

@@ -6,7 +6,6 @@ import com.robertnator.docker.update.sensor.dao.socket.UnixSocketException;
 import com.robertnator.docker.update.sensor.model.DockerUpdateInfo;
 import com.robertnator.docker.update.sensor.model.dockerhub.DockerHubImageInfo;
 import com.robertnator.docker.update.sensor.model.socket.DockerLocalImageInfo;
-import com.robertnator.docker.update.sensor.service.DockerImageUpdateCheckException;
 import com.robertnator.docker.update.sensor.service.json.JsonObjectMappingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +26,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class DockerImageUpdateCheckServiceTest {
+
+    @Mock
+    private VersionTagComparisonService versionTagComparisonService;
 
     @Mock
     private DockerHubDao dockerHubDao;
@@ -56,10 +58,11 @@ public class DockerImageUpdateCheckServiceTest {
                 .thenReturn(
                     new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("image@versionDigest"),
                         new Date(5)));
+            when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("1.1"))).thenReturn("1.1");
 
             assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
-                new DockerUpdateInfo(true, "image", "1.1", "latestDigest",
-                    new Date(2))));
+                new DockerUpdateInfo(true, "image", "1.1", singletonList("1.1"),
+                    "latestDigest", new Date(1))));
         }
 
         @Test
@@ -68,13 +71,13 @@ public class DockerImageUpdateCheckServiceTest {
             when(dockerSocketDao.getImageInfo("image"))
                 .thenReturn(
                     new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("latestDigest"), new Date(4)));
+            when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("1.1"))).thenReturn("1.1");
 
             assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
-                new DockerUpdateInfo(false, "image", "1.1", "latestDigest",
-                    new Date(2))));
+                new DockerUpdateInfo(false, "image", "1.1", singletonList("1.1"),
+                    "latestDigest", new Date(1))));
         }
     }
-
 
     @Test
     void testCheckForUpdateWhenLatestVersionIsNotFound() {
@@ -85,19 +88,42 @@ public class DockerImageUpdateCheckServiceTest {
     }
 
     @Test
+    void testCheckForUpdateWhenThereAreMultipleTagsForLatestVersion()
+        throws JsonObjectMappingException, DockerImageUpdateCheckException, UnixSocketException {
+        when(dockerHubDao.getLatestTags("image", 50))
+            .thenReturn(asList(
+                new DockerHubImageInfo("1", new Date(1), "latest", "latestDigest"),
+                new DockerHubImageInfo("2", new Date(2), "someOtherTag", "latestDigest"),
+                new DockerHubImageInfo("3", new Date(3), "1.1", "latestDigest"),
+                new DockerHubImageInfo("4", new Date(4), "1.0", "versionDigest")));
+        when(versionTagComparisonService.getBestSchematicVersioningTag(asList("someOtherTag", "1.1")))
+            .thenReturn("1.1");
+
+        when(dockerSocketDao.getImageInfo("image"))
+            .thenReturn(
+                new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("image@versionDigest"), new Date(4)));
+
+        assertThat(serviceUnderTest.checkForUpdate("image"),
+            equalTo(new DockerUpdateInfo(true, "image", "1.1", asList("someOtherTag", "1.1"),
+                "latestDigest", new Date(1))));
+    }
+
+    @Test
     void testCheckForUpdateWhenThereIsNoTagForLatestVersion()
         throws JsonObjectMappingException, DockerImageUpdateCheckException, UnixSocketException {
         when(dockerHubDao.getLatestTags("image", 50))
             .thenReturn(asList(
                 new DockerHubImageInfo("1", new Date(1), "latest", "latestDigest"),
                 new DockerHubImageInfo("3", new Date(3), "1.0", "versionDigest")));
+        when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("latest")))
+            .thenReturn("latest");
 
         when(dockerSocketDao.getImageInfo("image"))
             .thenReturn(
                 new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("image@versionDigest"), new Date(4)));
 
         assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
-            new DockerUpdateInfo(true, "image", "latest", "latestDigest",
+            new DockerUpdateInfo(true, "image", "latest", singletonList("latest"), "latestDigest",
                 new Date(1))));
     }
 }
