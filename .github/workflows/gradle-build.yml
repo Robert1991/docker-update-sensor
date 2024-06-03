@@ -35,4 +35,10 @@ jobs:
          username: robert1991
          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5.3.0
+      with:
+        push: true
+        tags: robert1991/docker-update-sensor:dev
+
       
