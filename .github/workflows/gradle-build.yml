@@ -39,10 +39,6 @@ jobs:
       run: |
           ls ${{ github.workspace }}
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5.3.0
-      with:
-        push: true
-        tags: robert1991/docker-update-sensor:dev
-
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag robert1991/docker-update-sensor:dev
       
