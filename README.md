@@ -27,7 +27,7 @@ from docker hub. If your image name is e.g. "home-assistant/homeassistant" or "m
 request and response would look like this:
 
 ```bash
-curl http://home-server:8080//api/check/update?image=mariadb
+curl http://home-server:8080//api/check/update?image=homeassistant/home-assistant
 ```
 
 Response:
@@ -35,11 +35,14 @@ Response:
 ```bash
 {
   "updateAvailable" : true,
-  "imageName" : "mariadb",
-  "latestVersionTag" : "11.3.2",
-  "latestVersionTags" : [ "jammy", "11.3.2-jammy", "11.3.2", "11.3-jammy", "11.3", "11-jammy", "11" ],
-  "latestVersionDigest" : "sha256:f0a6faee9d0e55492f238d1d11ff13d77616ea12d8c38bedf090da2ee05532be",
-  "updated" : "2024-05-06T18:37:21.052+00:00"
+  "imageName" : "homeassistant/home-assistant",
+  "latestVersionTag" : "2024.5.5",
+  "latestVersionTags" : [ "2024.5", "stable", "2024.5.5" ],
+  "latestVersionDigest" : "sha256:031d355a2e52e82fc33cd6854753fb19fc5d6a31af6f0f54c277d6f118ad993e",
+  "currentVersionTag" : "2024.5.2",
+  "currentVersionTags" : [ "2024.5.2" ],
+  "currentVersionDigest" : "homeassistant/home-assistant@sha256:dfe252fdd57c929e678e741690e97099a38f9adff8ae87a4a7972a7b8ed61a32",
+  "updated" : "2024-05-24T20:44:26.118+00:00"
 }
 ```
 

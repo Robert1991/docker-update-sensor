@@ -39,51 +39,51 @@ public class DockerHubDaoTest {
     }
 
     @Test
-    void testGetLatestTags() throws JsonObjectMappingException {
+    void testGetTags() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class))
             .thenReturn("{ \"results\": [\"response from docker hub\"] }");
 
-        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("repository/name", 10);
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name", 10);
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
     }
 
     @Test
-    void testGetLatestTagsForDockerContainerWithVersion() throws JsonObjectMappingException {
+    void testGetTagsForDockerContainerWithVersion() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class))
             .thenReturn("{ \"results\": [\"response from docker hub\"] }");
 
-        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("repository/name:version", 10);
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name:version", 10);
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
     }
 
     @Test
-    void testGetLatestTagsWithDockerHubRepositoryAndVersion() throws JsonObjectMappingException {
+    void testGetTagsWithDockerHubRepositoryAndVersion() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/library/imageName" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class)).thenReturn(
             "{ \"results\": [\"response from docker hub\"] }");
 
-        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("imageName:10", 10);
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("imageName:10", 10);
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
     }
 
     @Test
-    void testGetLatestTagsWithDockerHubRepository() throws JsonObjectMappingException {
+    void testGetTagsWithDockerHubRepository() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/library/imageName" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class)).thenReturn(
             "{ \"results\": [\"response from docker hub\"] }");
 
-        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("imageName", 10);
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("imageName", 10);
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
     }
 
     @Test
-    void testGetLatestTagsWithMultiplePages() throws JsonObjectMappingException {
+    void testGetTagsWithMultiplePages() throws JsonObjectMappingException {
         String expectedApiQuery = DOCKER_API_URL + "/repository/name" + "/tags?page_size=" + 10;
         when(restTemplate.getForObject(expectedApiQuery, String.class))
             .thenReturn("{ \"next\": \"http://next.url.to.fetch.from/\", \"results\": [\"response from docker hub\"]}");
@@ -98,11 +98,9 @@ public class DockerHubDaoTest {
                 "otherDigest")});
 
 
-        List<DockerHubImageInfo> imageInfos = daoUnderTest.getLatestTags("repository/name", 10);
+        List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name", 10);
 
         assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"),
             new DockerHubImageInfo("id2", new Date(345), "oldVersion", "otherDigest")));
     }
-
-
 }

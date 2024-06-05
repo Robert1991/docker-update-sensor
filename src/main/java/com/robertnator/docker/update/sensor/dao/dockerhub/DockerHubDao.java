@@ -29,7 +29,7 @@ public class DockerHubDao {
     @Autowired
     private JsonObjectMappingService jsonObjectMappingService;
 
-    public List<DockerHubImageInfo> getLatestTags(String imageName, int numberOfTags)
+    public List<DockerHubImageInfo> getTags(String imageName, int numberOfTags)
         throws JsonObjectMappingException {
         List<DockerHubImageInfo> queryResults = new ArrayList<>();
         String queryURL = createTagQueryURL(imageName, numberOfTags);

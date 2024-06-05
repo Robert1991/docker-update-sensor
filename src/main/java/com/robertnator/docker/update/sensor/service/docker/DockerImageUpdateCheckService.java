@@ -16,8 +16,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
+import static com.robertnator.docker.update.sensor.model.DockerUpdateInfo.noUpdate;
+import static com.robertnator.docker.update.sensor.model.DockerUpdateInfo.updateAvailable;
 import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Service
 public class DockerImageUpdateCheckService {
@@ -35,28 +39,30 @@ public class DockerImageUpdateCheckService {
 
     public DockerUpdateInfo checkForUpdate(String imageName)
         throws UnixSocketException, JsonObjectMappingException, DockerImageUpdateCheckException {
+        List<DockerHubImageInfo> dockerHubTagInfos = dockerHubDao.getTags(imageName, 100);
         Pair<DockerHubImageInfo, List<DockerHubImageInfo>> latestVersionInfos = getLatestVersionInfo(imageName,
-            dockerHubDao.getLatestTags(imageName, 50));
+            dockerHubTagInfos);
 
         String latestVersionDigest = latestVersionInfos.getLeft().digest();
         Date latestVersionUpdate = latestVersionInfos.getLeft().last_updated();
-        List<String> latestVersionTags = latestVersionInfos.getRight().stream()
-            .map(DockerHubImageInfo::name)
-            .toList();
-        String bestSchematicVersioningTag = versionTagComparisonService.getBestSchematicVersioningTag(
-            latestVersionTags);
+        List<String> latestVersionTags = getImageNames(latestVersionInfos.getRight());
+        String latestVersionTag = versionTagComparisonService.getBestSchematicVersioningTag(latestVersionTags);
 
         DockerLocalImageInfo localImageInfo = dockerSocketDao.getImageInfo(imageName);
-        if (localImageInfo.getRepoDigest().contains(latestVersionDigest)) {
+        String localImageDigest = localImageInfo.getRepoDigest();
+        if (localImageDigest.contains(latestVersionDigest)) {
             LOG.info("No new update found for {}. Latest version is {} with digest {}.", imageName,
-                bestSchematicVersioningTag, latestVersionDigest);
-            return new DockerUpdateInfo(false, imageName, bestSchematicVersioningTag, latestVersionTags,
-                latestVersionDigest, latestVersionUpdate);
+                latestVersionTag, latestVersionDigest);
+            return noUpdate(imageName, latestVersionTag, latestVersionTags, latestVersionDigest, localImageDigest,
+                latestVersionUpdate);
         }
-        LOG.info("Update found for {}. Latest version is {} with digest {}.", imageName, bestSchematicVersioningTag,
+        LOG.info("Update found for {}. Latest version is {} with digest {}.", imageName, latestVersionTag,
             latestVersionDigest);
-        return new DockerUpdateInfo(true, imageName, bestSchematicVersioningTag, latestVersionTags,
-            latestVersionDigest, latestVersionUpdate);
+        List<String> currentImageInfos = getImageNames(
+            getImageInfosForDigest(dockerHubTagInfos, localImageDigest::contains));
+        String currentVersionTag = versionTagComparisonService.getBestSchematicVersioningTag(currentImageInfos);
+        return updateAvailable(imageName, latestVersionTag, latestVersionTags, latestVersionDigest, currentVersionTag,
+            currentImageInfos, localImageDigest, latestVersionUpdate);
     }
 
     private Pair<DockerHubImageInfo, List<DockerHubImageInfo>> getLatestVersionInfo(String imageName,
@@ -69,9 +75,8 @@ public class DockerImageUpdateCheckService {
 
         List<DockerHubImageInfo> imageInfosFromDockerHubCopy = new ArrayList<>(imageInfosFromDockerHub);
         imageInfosFromDockerHubCopy.remove(latestImageInfo);
-        List<DockerHubImageInfo> latestImageInfos = imageInfosFromDockerHubCopy.stream()
-            .filter(imageInfo -> imageInfo.digest() != null && imageInfo.digest().equals(latestImageInfo.digest()))
-            .toList();
+        List<DockerHubImageInfo> latestImageInfos = getImageInfosForDigest(imageInfosFromDockerHubCopy,
+            digest -> digest.equals(latestImageInfo.digest()));
         if (latestImageInfos.isEmpty()) {
             return Pair.of(latestImageInfo, singletonList(latestImageInfo));
         }
@@ -83,5 +88,18 @@ public class DockerImageUpdateCheckService {
             .filter(imageInfo -> imageInfo.name().equals("latest"))
             .findFirst()
             .orElse(null);
+    }
+
+    private static List<DockerHubImageInfo> getImageInfosForDigest(List<DockerHubImageInfo> imageInfosFromDockerHubCopy,
+        Predicate<String> digestMatchingFunction) {
+        return imageInfosFromDockerHubCopy.stream()
+            .filter(imageInfo -> isNotEmpty(imageInfo.digest()) && digestMatchingFunction.test(imageInfo.digest()))
+            .toList();
+    }
+
+    private static List<String> getImageNames(List<DockerHubImageInfo> dockerHubTagInfos) {
+        return dockerHubTagInfos.stream()
+            .map(DockerHubImageInfo::name)
+            .toList();
     }
 }

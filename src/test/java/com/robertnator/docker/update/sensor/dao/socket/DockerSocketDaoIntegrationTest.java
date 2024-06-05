@@ -11,10 +11,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.Instant;
-import java.util.Date;
 
 import static com.robertnator.docker.update.sensor.dao.socket.DockerSocketDao.DOCKER_UNIX_SOCKET;
+import static com.robertnator.docker.update.sensor.utils.DateUtils.toDate;
+import static com.robertnator.docker.update.sensor.utils.TestResourceUtils.getTestResourceContent;
 import static com.robertnator.docker.update.sensor.utils.TestResourceUtils.getTestResourcePath;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,7 +33,7 @@ public class DockerSocketDaoIntegrationTest {
 
     @Test
     void testGetImageInfo(TestInfo testInfo) throws IOException, UnixSocketException, JsonObjectMappingException {
-        String sampleImageInfoJsonString = Files.readString(getTestResourcePath(testInfo));
+        String sampleImageInfoJsonString = Files.readString(getTestResourcePath(testInfo, ".json"));
 
         when(unixSocketDao.get(new File(DOCKER_UNIX_SOCKET), "/images/imageName/json"))
             .thenReturn(sampleImageInfoJsonString);
@@ -69,15 +69,11 @@ public class DockerSocketDaoIntegrationTest {
     }
 
     private void doTestGetImageInfoErrorCase(TestInfo testInfo) throws Exception {
-        String sampleImageInfoJsonString = Files.readString(getTestResourcePath(testInfo));
+        String sampleImageInfoJsonString = getTestResourceContent(testInfo, ".json");
 
         when(unixSocketDao.get(new File(DOCKER_UNIX_SOCKET), "/images/imageName/json"))
             .thenReturn(sampleImageInfoJsonString);
 
         assertThrows(JsonObjectMappingException.class, () -> daoUnderTest.getImageInfo("imageName"));
-    }
-
-    private static Date toDate(String dateString) {
-        return new Date(Instant.parse(dateString).toEpochMilli());
     }
 }

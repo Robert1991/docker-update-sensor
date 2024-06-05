@@ -24,7 +24,7 @@ public class ResponseJsonToObjectsConversionTest {
 
     @Test
     void testReadDockerHubImageInfo(TestInfo testInfo) throws IOException, JsonObjectMappingException {
-        String sampleJsonString = Files.readString(getTestResourcePath(testInfo));
+        String sampleJsonString = Files.readString(getTestResourcePath(testInfo, ".json"));
 
         DockerHubImageInfo[] imageInfos = jsonObjectMappingService.mapToClass(sampleJsonString,
             DockerHubImageInfo[].class, false);

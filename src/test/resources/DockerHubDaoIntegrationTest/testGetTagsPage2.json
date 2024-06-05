@@ -1,0 +1,122 @@
+{
+  "count": 3347,
+  "previous": "https://hub.docker.com/v2/repositories/homeassistant/home-assistant/tags?page=1&page_size=50",
+  "results": [
+    {
+      "creator": 1554036,
+      "id": 674091793,
+      "images": [
+        {
+          "architecture": "",
+          "features": "",
+          "variant": null,
+          "digest": "sha256:7b71427d39c7b6f8e48068c6abda49dde21448a2bb0d6176a769453a8b9bb4d2",
+          "os": "",
+          "os_features": "",
+          "os_version": null,
+          "size": 520,
+          "status": "active",
+          "last_pulled": "2024-06-05T12:33:23.540629Z",
+          "last_pushed": "2024-05-22T02:35:47.96512Z"
+        }
+      ],
+      "last_updated": "2024-05-22T02:35:47.96512Z",
+      "last_updater": 1554036,
+      "last_updater_username": "pvizeli",
+      "name": "1.0",
+      "repository": 637102,
+      "full_size": 520,
+      "v2": true,
+      "tag_status": "active",
+      "tag_last_pulled": "2024-06-05T12:33:23.540629Z",
+      "tag_last_pushed": "2024-05-22T02:35:47.96512Z",
+      "media_type": "application/vnd.oci.image.config.v1+json",
+      "content_type": "image",
+      "digest": "sha256:7b71427d39c7b6f8e48068c6abda49dde21448a2bb0d6176a769453a8b9bb4d2"
+    },
+    {
+      "creator": 1554036,
+      "id": 674091779,
+      "images": [
+        {
+          "architecture": "arm64",
+          "features": "",
+          "variant": null,
+          "digest": "sha256:9a446eb77522fbaa9519ef6ad3f6e08b20e88df875c93d608082fdf22efcd3e6",
+          "os": "linux",
+          "os_features": "",
+          "os_version": null,
+          "size": 567922449,
+          "status": "active",
+          "last_pulled": "2024-06-03T18:49:32.27509Z",
+          "last_pushed": "2024-05-22T02:35:45.14538Z"
+        },
+        {
+          "architecture": "amd64",
+          "features": "",
+          "variant": null,
+          "digest": "sha256:7d72d39b4736b74afb5c8d4a621c5526a2542e1ba07aa6d5392c4a284f12ac70",
+          "os": "linux",
+          "os_features": "",
+          "os_version": null,
+          "size": 584557974,
+          "status": "active",
+          "last_pulled": "2024-06-03T18:49:32.578641Z",
+          "last_pushed": "2024-05-22T02:35:45.328465Z"
+        },
+        {
+          "architecture": "arm",
+          "features": "",
+          "variant": "v6",
+          "digest": "sha256:c7af4511b27341fa4ed501c23880c0d48dfba2362e9061bd00d2ffa395b49b10",
+          "os": "linux",
+          "os_features": "",
+          "os_version": null,
+          "size": 555111756,
+          "status": "active",
+          "last_pulled": "2024-06-03T18:49:33.680097Z",
+          "last_pushed": "2024-05-22T02:35:45.456852Z"
+        },
+        {
+          "architecture": "arm",
+          "features": "",
+          "variant": "v7",
+          "digest": "sha256:1516bb48688114cc1fa8f12320ae1487bc0ecbd15f424cc6389bfe7ddb6610cb",
+          "os": "linux",
+          "os_features": "",
+          "os_version": null,
+          "size": 539619390,
+          "status": "active",
+          "last_pulled": "2024-06-03T18:49:34.4001Z",
+          "last_pushed": "2024-05-22T02:35:45.742544Z"
+        },
+        {
+          "architecture": "386",
+          "features": "",
+          "variant": null,
+          "digest": "sha256:fc1554dc46e34741274628377021a9a07b0f425069acd45486d3590f114b449b",
+          "os": "linux",
+          "os_features": "",
+          "os_version": null,
+          "size": 578321334,
+          "status": "active",
+          "last_pulled": "2024-06-04T23:34:48.596978Z",
+          "last_pushed": "2024-05-22T02:35:45.906014Z"
+        }
+      ],
+      "last_updated": "2024-05-22T02:35:06.387125Z",
+      "last_updater": 1554036,
+      "last_updater_username": "pvizeli",
+      "name": "0.9",
+      "repository": 637102,
+      "full_size": 567922449,
+      "v2": true,
+      "tag_status": "active",
+      "tag_last_pulled": "2024-06-05T12:33:23.878939Z",
+      "tag_last_pushed": "2024-05-22T02:35:06.387125Z",
+      "media_type": "application/vnd.docker.distribution.manifest.list.v2+json",
+      "content_type": "image",
+      "digest": "sha256:28788eb9eec3531081e0018942c1931d0c17736f7027aa25129d65cee0cb0fea"
+    }
+  ]
+}
