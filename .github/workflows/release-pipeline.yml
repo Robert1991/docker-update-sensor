@@ -1,0 +1,21 @@
+name: Release to docker hub
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine Release Version
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+  
+  release:
+    uses: ./.github/workflows/gradle-build-and-deploy.yml
+    with:
+      version_tag: ${{ needs.build_job.outputs.TAG }}
+    secrets:
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
