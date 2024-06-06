@@ -1,0 +1,15 @@
+name: Continous Build
+
+on:
+  push:
+    branches:
+    - main
+    
+
+jobs:
+  build_job:
+    uses: ./.github/workflows/gradle-build-and-deploy.yml
+    with:
+      version_tag: dev
+    secrets:
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}

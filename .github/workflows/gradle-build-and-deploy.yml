@@ -1,9 +1,15 @@
 name: Gradle Build
 
 on:
-  push:
-    branches:
-    - main
+  workflow_call:
+    inputs:
+      version_tag:
+        required: true
+        type: string
+    secrets:
+      required:
+          DOCKER_HUB_TOKEN:
+            required: true
 
 jobs:
   build:
@@ -27,7 +33,7 @@ jobs:
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build -Pversion=${{ inputs.version_tag }}
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4.3.3
@@ -41,9 +47,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      CONTAINER_TAG: dev
-    
+
     steps:
     - uses: actions/checkout@v4
     
@@ -59,7 +63,7 @@ jobs:
          username: robert1991
          password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag robert1991/docker-update-sensor:$CONTAINER_TAG
+      run: docker build . --file Dockerfile --build-arg APP_VERSION=${{ inputs.version_tag }} --tag robert1991/docker-update-sensor:${{ inputs.version_tag }}
 
     - name: Push dev Docker image  
-      run: docker push robert1991/docker-update-sensor:dev
+      run: docker push robert1991/docker-update-sensor:${{ inputs.version_tag }}
