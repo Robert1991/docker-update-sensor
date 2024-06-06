@@ -3,7 +3,7 @@
 WORKING_DIR="/home/robert/automations/docker-update-sensor/"
 
 ./gradlew bootJar
-scp build/libs/docker.update.sensor-1.0.2-SNAPSHOT.jar robert@rpn-home-server:$WORKING_DIR/build/libs/
+scp build/libs/docker.update.sensor.jar robert@rpn-home-server:$WORKING_DIR/build/libs/
 scp Dockerfile robert@rpn-home-server:$WORKING_DIR/Dockerfile
 
 ssh robert@rpn-home-server "docker image rm -f docker-update-sensor-test 2>> /dev/null"
