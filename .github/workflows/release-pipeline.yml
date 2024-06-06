@@ -7,18 +7,21 @@ on:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.set_tag.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
       - name: Determine Release Version
         run: |
           TAG=$(git describe --tags --abbrev=0)
           echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "::set-output name=tag::$TAG"
   
   release:
     uses: ./.github/workflows/gradle-build-and-deploy.yml
     needs: prepare
     with:
-      version_tag: ${{ needs.prepare.outputs.TAG }}
+      version_tag: ${{ needs.prepare.outputs.tag }}
       is_release: true
     secrets:
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
