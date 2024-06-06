@@ -16,6 +16,7 @@ jobs:
   
   release:
     uses: ./.github/workflows/gradle-build-and-deploy.yml
+    needs: prepare
     with:
       version_tag: ${{ needs.prepare.outputs.TAG }}
       is_release: true
