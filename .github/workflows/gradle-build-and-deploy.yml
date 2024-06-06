@@ -6,6 +6,9 @@ on:
       version_tag:
         required: true
         type: string
+      is_release:
+        required: false
+        type: boolean
     secrets:
       DOCKER_HUB_TOKEN:
         required: true
@@ -54,8 +57,13 @@ jobs:
       with:
          username: robert1991
          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --build-arg APP_VERSION=${{ inputs.version_tag }} --tag robert1991/docker-update-sensor:${{ inputs.version_tag }}
+    - name: Build and push versioned docker image
+      run: |
+        docker build . --file Dockerfile --build-arg APP_VERSION=${{ inputs.version_tag }} --tag robert1991/docker-update-sensor:${{ inputs.version_tag }}
+        docker push robert1991/docker-update-sensor:${{ inputs.version_tag }}
 
-    - name: Push dev Docker image  
-      run: docker push robert1991/docker-update-sensor:${{ inputs.version_tag }}
+    - name: Build and push lastest docker image
+      if: ${{ inputs.is_release }}
+      run: |
+        docker build . --file Dockerfile --build-arg APP_VERSION=${{ inputs.version_tag }} --tag robert1991/docker-update-sensor:latest
+        docker push robert1991/docker-update-sensor:latest
