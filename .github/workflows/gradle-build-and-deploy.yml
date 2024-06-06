@@ -7,9 +7,8 @@ on:
         required: true
         type: string
     secrets:
-      required:
-          DOCKER_HUB_TOKEN:
-            required: true
+      DOCKER_HUB_TOKEN:
+        required: true
 
 jobs:
   build:
