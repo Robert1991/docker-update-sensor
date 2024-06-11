@@ -18,10 +18,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -42,7 +39,7 @@ public class UnixSocketConnectionFactoryTest {
 
     @Test
     void testCreateSocket(@Mock HttpContext httpContext) throws IOException {
-        assertThat(factoryUnderTest.createSocket(httpContext), instanceOf(AFUNIXSocket.class));
+        assertThat(factoryUnderTest.createSocket(httpContext)).isInstanceOf(AFUNIXSocket.class);
 
         verifyNoInteractions(httpContext);
     }
@@ -56,7 +53,7 @@ public class UnixSocketConnectionFactoryTest {
         Socket actualSocket = factoryUnderTest.connectSocket(123, unixSocket, httpHost, remoteAddress, localAddress,
             context);
 
-        assertThat(actualSocket, is(unixSocket));
+        assertThat(actualSocket).isSameAs(unixSocket);
         verify(unixSocket).connect(expectedSocketAddress, 123);
         verifyNoInteractions(httpHost, remoteAddress, localAddress, context);
         verifyNoMoreInteractions(unixSocket);
@@ -74,7 +71,7 @@ public class UnixSocketConnectionFactoryTest {
         var thrown = assertThrows(ConnectTimeoutException.class, () -> factoryUnderTest.connectSocket(123,
             unixSocket, httpHost, remoteAddress, localAddress, context));
 
-        assertThat(thrown.getMessage(), is("timeout"));
+        assertThat(thrown.getMessage()).isEqualTo("timeout");
         verifyNoInteractions(httpHost, remoteAddress, localAddress, context);
         verifyNoMoreInteractions(unixSocket);
     }
@@ -85,7 +82,7 @@ public class UnixSocketConnectionFactoryTest {
         var thrown = assertThrows(IllegalArgumentException.class,
             () -> factoryUnderTest.connectSocket(123, socket, httpHost, remoteAddress, localAddress,
                 context));
-        assertThat(thrown.getMessage(), equalTo("Socket not of type AFUNIXSocket"));
+        assertThat(thrown.getMessage()).isEqualTo("Socket not of type AFUNIXSocket");
         verifyNoInteractions(socket, httpHost, remoteAddress, localAddress, context);
     }
 }

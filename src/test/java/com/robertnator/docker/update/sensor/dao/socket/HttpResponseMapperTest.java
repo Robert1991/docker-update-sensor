@@ -11,10 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.emptyString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.when;
 
@@ -34,14 +31,14 @@ public class HttpResponseMapperTest {
     void testGetStatusCode() {
         when(httpResponse.getStatusLine().getStatusCode()).thenReturn(401);
 
-        assertThat(objectUnderTest.getStatusCode(), equalTo(401));
+        assertThat(objectUnderTest.getStatusCode()).isEqualTo(401);
     }
 
     @Test
     void testGetStatusReason() {
         when(httpResponse.getStatusLine().getReasonPhrase()).thenReturn("reason");
 
-        assertThat(objectUnderTest.getReason(), equalTo("reason"));
+        assertThat(objectUnderTest.getReason()).isEqualTo("reason");
     }
 
     @Test
@@ -49,13 +46,13 @@ public class HttpResponseMapperTest {
         mockedEntityUtils.when(() -> EntityUtils.toString(httpResponse.getEntity()))
             .thenReturn("response");
 
-        assertThat(objectUnderTest.getResponseAsString(), equalTo("response"));
+        assertThat(objectUnderTest.getResponseAsString()).isEqualTo("response");
     }
 
     @Test
     void testGetResponseAsStringWhenEmpty() throws IOException {
         when(httpResponse.getEntity()).thenReturn(null);
 
-        assertThat(objectUnderTest.getResponseAsString(), is(emptyString()));
+        assertThat(objectUnderTest.getResponseAsString()).isEmpty();
     }
 }

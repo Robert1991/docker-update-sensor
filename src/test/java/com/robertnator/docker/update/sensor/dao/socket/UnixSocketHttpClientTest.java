@@ -16,8 +16,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import static com.robertnator.docker.update.sensor.matcher.HttpUriRequestMatcher.argThat;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -40,8 +39,8 @@ public class UnixSocketHttpClientTest {
 
         HttpResponseWrapper actualHttpResponse = objectUnderTest.get(new URI("test"));
 
-        assertThat(actualHttpResponse.getStatusCode(), equalTo(200));
-        assertThat(actualHttpResponse.getReason(), equalTo("OK"));
+        assertThat(actualHttpResponse.getStatusCode()).isEqualTo(200);
+        assertThat(actualHttpResponse.getReason()).isEqualTo("OK");
     }
 
     @Test

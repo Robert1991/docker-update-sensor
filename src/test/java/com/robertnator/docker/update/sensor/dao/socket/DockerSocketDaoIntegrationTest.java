@@ -17,9 +17,8 @@ import static com.robertnator.docker.update.sensor.utils.DateUtils.toDate;
 import static com.robertnator.docker.update.sensor.utils.TestResourceUtils.getTestResourceContent;
 import static com.robertnator.docker.update.sensor.utils.TestResourceUtils.getTestResourcePath;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatException;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -40,12 +39,12 @@ public class DockerSocketDaoIntegrationTest {
 
         DockerLocalImageInfo actualLocalImageInfo = daoUnderTest.getImageInfo("imageName");
 
-        assertThat(actualLocalImageInfo, equalTo(
+        assertThat(actualLocalImageInfo).isEqualTo(
             new DockerLocalImageInfo("sha256:b23433ac1b2accddcf0e5089b1b7cd4a1e5bb8d2d1ce3c9f6ecfcd15b9fd99d2",
                 singletonList("koenkk/zigbee2mqtt:latest"),
                 singletonList(
                     "koenkk/zigbee2mqtt@sha256:32901c8b100ee4d04123eb714523a023ca4aba7946e504209c7d773d07f697b5"),
-                toDate("2024-04-01T18:02:30.665927498Z"))));
+                toDate("2024-04-01T18:02:30.665927498Z")));
     }
 
     @Test
@@ -74,6 +73,8 @@ public class DockerSocketDaoIntegrationTest {
         when(unixSocketDao.get(new File(DOCKER_UNIX_SOCKET), "/images/imageName/json"))
             .thenReturn(sampleImageInfoJsonString);
 
-        assertThrows(JsonObjectMappingException.class, () -> daoUnderTest.getImageInfo("imageName"));
+        assertThatException()
+            .isThrownBy(() -> daoUnderTest.getImageInfo("imageName"))
+            .isInstanceOf(JsonObjectMappingException.class);
     }
 }

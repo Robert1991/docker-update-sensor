@@ -20,9 +20,8 @@ import static com.robertnator.docker.update.sensor.model.DockerUpdateInfo.noUpda
 import static com.robertnator.docker.update.sensor.model.DockerUpdateInfo.updateAvailable;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatException;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,9 +61,10 @@ public class DockerImageUpdateCheckServiceTest {
             when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("1.1"))).thenReturn("1.1");
             when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("1.0"))).thenReturn("1.0");
 
-            assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
+
+            assertThat(serviceUnderTest.checkForUpdate("image")).isEqualTo(
                 updateAvailable("image", "1.1", singletonList("1.1"), "latestDigest", "1.0", singletonList("1.0"),
-                    "image@versionDigest", new Date(1))));
+                    "image@versionDigest", new Date(1)));
         }
 
         @Test
@@ -75,17 +75,17 @@ public class DockerImageUpdateCheckServiceTest {
                     new Date(4)));
             when(versionTagComparisonService.getBestSchematicVersioningTag(singletonList("1.1"))).thenReturn("1.1");
 
-            assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
-                noUpdate("image", "1.1", singletonList("1.1"), "latestDigest", "image@latestDigest", new Date(1))));
+            assertThat(serviceUnderTest.checkForUpdate("image")).isEqualTo(
+                noUpdate("image", "1.1", singletonList("1.1"), "latestDigest", "image@latestDigest", new Date(1)));
         }
     }
 
     @Test
     void testCheckForUpdateWhenLatestVersionIsNotFound() {
-        var thrown = assertThrows(DockerImageUpdateCheckException.class,
-            () -> serviceUnderTest.checkForUpdate("imageName"));
-        assertThat(thrown.getMessage(), equalTo("No info about latest version could be fetched from docker hub for " +
-            "image 'imageName'"));
+        assertThatException()
+            .isThrownBy(() -> serviceUnderTest.checkForUpdate("imageName"))
+            .withMessage("No info about latest version could be fetched from docker hub for image 'imageName'")
+            .isInstanceOf(DockerImageUpdateCheckException.class);
     }
 
     @Test
@@ -108,9 +108,9 @@ public class DockerImageUpdateCheckServiceTest {
             .thenReturn(
                 new DockerLocalImageInfo("a", singletonList("1.0"), singletonList("image@versionDigest"), new Date(4)));
 
-        assertThat(serviceUnderTest.checkForUpdate("image"),
-            equalTo(updateAvailable("image", "1.1", asList("someOtherTag", "1.1"), "latestDigest", "1.0",
-                asList("1.0", "1.0-someOtherTag"), "image@versionDigest", new Date(1))));
+        assertThat(serviceUnderTest.checkForUpdate("image")).isEqualTo(
+            updateAvailable("image", "1.1", asList("someOtherTag", "1.1"), "latestDigest", "1.0",
+                asList("1.0", "1.0-someOtherTag"), "image@versionDigest", new Date(1)));
     }
 
     @Test
@@ -128,9 +128,9 @@ public class DockerImageUpdateCheckServiceTest {
         when(dockerSocketDao.getImageInfo("image"))
             .thenReturn(
                 new DockerLocalImageInfo("a", singletonList("1.1"), singletonList("image@versionDigest"), new Date(4)));
-
-        assertThat(serviceUnderTest.checkForUpdate("image"), equalTo(
+        
+        assertThat(serviceUnderTest.checkForUpdate("image")).isEqualTo(
             updateAvailable("image", "latest", singletonList("latest"), "latestDigest", "1.0", singletonList("1.0"),
-                "image@versionDigest", new Date(1))));
+                "image@versionDigest", new Date(1)));
     }
 }

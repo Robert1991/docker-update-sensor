@@ -11,9 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatException;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +44,7 @@ public class UnixSocketDaoTest {
         when(httpClient.get(URI.create("http://localhost/foo/test")))
             .thenReturn(httpResponse);
 
-        assertThat(daoUnderTest.get(socketFile, "foo/test"), equalTo("response"));
+        assertThat(daoUnderTest.get(socketFile, "foo/test")).isEqualTo("response");
     }
 
     @Test
@@ -57,9 +56,10 @@ public class UnixSocketDaoTest {
         IOException expectedInnerException = new IOException("some io problem");
         doThrow(expectedInnerException).when(httpClient).close();
 
-        var thrown = assertThrows(UnixSocketException.class, () -> daoUnderTest.get(socketFile, "foo/test"));
-        assertThat(thrown.getMessage(), equalTo("Unable to close http client."));
-        assertThat(thrown.getCause(), equalTo(expectedInnerException));
+        assertThatException().isThrownBy(() -> daoUnderTest.get(socketFile, "foo/test"))
+            .isInstanceOf(UnixSocketException.class)
+            .withMessage("Unable to close http client.")
+            .withCause(expectedInnerException);
     }
 
     @Test
@@ -68,10 +68,10 @@ public class UnixSocketDaoTest {
         when(httpClient.get(URI.create("http://localhost/foo/test")))
             .thenThrow(expectedInnerException);
 
-        var thrown = assertThrows(UnixSocketException.class, () -> daoUnderTest.get(socketFile, "foo/test"));
-        assertThat(thrown.getMessage(),
-            equalTo("Error on GET query " + "http://localhost/foo/test" + " to: " + socketFile));
-        assertThat(thrown.getCause(), equalTo(expectedInnerException));
+        assertThatException().isThrownBy(() -> daoUnderTest.get(socketFile, "foo/test"))
+            .isInstanceOf(UnixSocketException.class)
+            .withMessage("Error on GET query " + "http://localhost/foo/test" + " to: " + socketFile)
+            .withCause(expectedInnerException);
     }
 
     @Test
@@ -83,9 +83,10 @@ public class UnixSocketDaoTest {
         when(httpClient.get(URI.create("http://localhost/foo/test")))
             .thenReturn(httpResponse);
 
-        var thrown = assertThrows(UnixSocketException.class, () -> daoUnderTest.get(socketFile, "foo/test"));
-        assertThat(thrown.getMessage(), equalTo("Unable to unpack response from query to unix socket."));
-        assertThat(thrown.getCause(), equalTo(expectedInnerException));
+        assertThatException().isThrownBy(() -> daoUnderTest.get(socketFile, "foo/test"))
+            .isInstanceOf(UnixSocketException.class)
+            .withMessage("Unable to unpack response from query to unix socket.")
+            .withCause(expectedInnerException);
     }
 
     @Test
@@ -95,8 +96,9 @@ public class UnixSocketDaoTest {
         when(httpClient.get(URI.create("http://localhost/foo/test")))
             .thenReturn(httpResponse);
 
-        var thrown = assertThrows(UnixSocketException.class, () -> daoUnderTest.get(socketFile, "foo/test"));
-        assertThat(thrown.getMessage(), equalTo("Unexpected status code '500' on query 'http://localhost/foo/test' " +
-            "to socket: " + socketFile + "\nReason: unable to read socket"));
+        assertThatException().isThrownBy(() -> daoUnderTest.get(socketFile, "foo/test"))
+            .isInstanceOf(UnixSocketException.class)
+            .withMessage("Unexpected status code '500' on query 'http://localhost/foo/test' " +
+                "to socket: " + socketFile + "\nReason: unable to read socket");
     }
 }

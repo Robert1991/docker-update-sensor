@@ -14,8 +14,7 @@ import java.util.Date;
 
 import static com.robertnator.docker.update.sensor.dao.socket.DockerSocketDao.DOCKER_UNIX_SOCKET;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,6 +40,6 @@ public class DockerSocketDaoTest {
 
         DockerLocalImageInfo actualImageInfo = daoUnderTest.getImageInfo("docker/image/name");
 
-        assertThat(actualImageInfo, equalTo(expectedImageInfo));
+        assertThat(actualImageInfo).isEqualTo(expectedImageInfo);
     }
 }

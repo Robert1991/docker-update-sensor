@@ -26,16 +26,16 @@ public class HttpUriRequestMatcher extends TypeSafeMatcher<HttpUriRequest> {
     @Override
     protected boolean matchesSafely(HttpUriRequest actualHttpRequest) {
         return expected.getURI().equals(actualHttpRequest.getURI()) &&
-                expected.getMethod().equals(actualHttpRequest.getMethod()) &&
-                expected.getProtocolVersion().equals(actualHttpRequest.getProtocolVersion());
+            expected.getMethod().equals(actualHttpRequest.getMethod()) &&
+            expected.getProtocolVersion().equals(actualHttpRequest.getProtocolVersion());
     }
 
     @Override
     public void describeTo(Description description) {
         description.appendText("Expected http request equal to:")
-                .appendText("URI: ").appendValue(expected.getURI())
-                .appendText("Method: ").appendValue(expected.getMethod())
-                .appendText("ProtocolVersion: ").appendValue(expected.getProtocolVersion());
+            .appendText("URI: ").appendValue(expected.getURI())
+            .appendText("Method: ").appendValue(expected.getMethod())
+            .appendText("ProtocolVersion: ").appendValue(expected.getProtocolVersion());
     }
 
     protected ArgumentMatcher<HttpUriRequest> createArgumentMatcher() {

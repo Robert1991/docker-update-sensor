@@ -16,8 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.robertnator.docker.update.sensor.dao.dockerhub.DockerHubDao.DOCKER_API_URL;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +45,7 @@ public class DockerHubDaoTest {
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name", 10);
 
-        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
+        assertThat(imageInfos).contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"));
     }
 
     @Test
@@ -57,7 +56,7 @@ public class DockerHubDaoTest {
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name:version", 10);
 
-        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
+        assertThat(imageInfos).contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"));
     }
 
     @Test
@@ -68,7 +67,7 @@ public class DockerHubDaoTest {
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("imageName:10", 10);
 
-        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
+        assertThat(imageInfos).contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"));
     }
 
     @Test
@@ -79,7 +78,7 @@ public class DockerHubDaoTest {
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("imageName", 10);
 
-        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest")));
+        assertThat(imageInfos).contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"));
     }
 
     @Test
@@ -100,7 +99,8 @@ public class DockerHubDaoTest {
 
         List<DockerHubImageInfo> imageInfos = daoUnderTest.getTags("repository/name", 10);
 
-        assertThat(imageInfos, contains(new DockerHubImageInfo("id", new Date(123), "latest", "digest"),
-            new DockerHubImageInfo("id2", new Date(345), "oldVersion", "otherDigest")));
+        assertThat(imageInfos).contains(
+            new DockerHubImageInfo("id", new Date(123), "latest", "digest"),
+            new DockerHubImageInfo("id2", new Date(345), "oldVersion", "otherDigest"));
     }
 }

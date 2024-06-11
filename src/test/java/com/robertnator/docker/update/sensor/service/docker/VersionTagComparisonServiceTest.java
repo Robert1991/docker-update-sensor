@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +25,7 @@ public class VersionTagComparisonServiceTest {
     @ParameterizedTest
     @MethodSource
     void testGetBestSchematicVersioningTag(List<String> actualTags, String expectedBestTag) {
-        assertThat(serviceUnderTest.getBestSchematicVersioningTag(actualTags), equalTo(expectedBestTag));
+        assertThat(serviceUnderTest.getBestSchematicVersioningTag(actualTags)).isEqualTo(expectedBestTag);
     }
 
     static Stream<Arguments> testGetBestSchematicVersioningTag() {
